@@ -13,7 +13,7 @@
 
 ### 1. Установка зависимостей
 * Менеджер пакетов pip (и обновим его), инструменты разработки Python и модуль для создания виртуальной среды (в ней будет храниться приложение):
-    > sudo apt-get install python3-pip python3-dev python3-venv
+    > sudo apt-get install python3-pip python3-dev python3-venv  
     > sudo pip3 install --upgrade pip
 * Веб сервер nginx (в качестве обратного прокси-сервер для Gunicorn: помогает работать с медленными клиентами за счет управления запросами => backend занят min возможное время):
     > sudo apt-get install nginx
