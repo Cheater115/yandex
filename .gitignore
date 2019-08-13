@@ -1,0 +1,4 @@
+yaenv/
+.vscode/
+*.md
+*.pyc
