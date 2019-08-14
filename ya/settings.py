@@ -78,7 +78,7 @@ WSGI_APPLICATION = 'ya.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'analitics',
+        'NAME': 'analitics_db',
         'USER': 'cheater',
         'PASSWORD': 'gif54TRU',
         'HOST': 'localhost',

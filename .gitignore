@@ -2,3 +2,7 @@ yaenv/
 .vscode/
 *.md
 *.pyc
+*.py[cod]
+analitics/migrations/00*
+__pycache__/
+*/__pycache__/
