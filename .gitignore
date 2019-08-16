@@ -3,6 +3,7 @@ yaenv/
 *.md
 *.pyc
 *.py[cod]
-analitics/migrations/00*
+analitics/migrations/
 __pycache__/
 */__pycache__/
+static/
