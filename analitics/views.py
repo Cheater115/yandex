@@ -1,21 +1,30 @@
 from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework.parsers import JSONParser
+from rest_framework import status
 
 
 class ImportCreate(APIView):
-    pass
-
-
-class CititzenList(APIView):
-    pass
+    parser_classes = (JSONParser,)  # принимать только json
+    def post(self, request):
+        return Response(status=status.HTTP_200_OK)
 
 
 class CititzenDetail(APIView):
-    pass
+    def patch(self, request, import_id, citizen_id):
+        pass
+
+
+class CititzenList(APIView):
+    def get(self, request, import_id):
+        pass 
 
 
 class CititzenBirthdays(APIView):
-    pass
+    def get(self, request, import_id):
+        pass
 
 
 class ImportParcentile(APIView):
-    pass
+    def get(self, request, import_id):
+        pass
