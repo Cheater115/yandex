@@ -1,6 +1,21 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from rest_framework.views import APIView
 
-# Create your views here.
-def test(request, *args, **kwargs):
-    return HttpResponse('OK')
+
+class ImportCreate(APIView):
+    pass
+
+
+class CititzenList(APIView):
+    pass
+
+
+class CititzenDetail(APIView):
+    pass
+
+
+class CititzenBirthdays(APIView):
+    pass
+
+
+class ImportParcentile(APIView):
+    pass

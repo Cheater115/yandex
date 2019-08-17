@@ -1,3 +1,9 @@
 from django.db import models
 
-# Create your models here.
+
+class Import(models.Model):
+    pass
+
+
+class Citizen(models.Model):
+    pass
