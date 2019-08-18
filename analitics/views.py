@@ -29,6 +29,18 @@ class ImportCreate(APIView):
 
 
 class CitizenDetail(APIView):
+    # only for debug
+    def get(self, request, import_id, citizen_id):
+        try:
+            imp = Import.objects.get(id=import_id)
+        except Import.DoesNotExist:
+            raise serializers.ValidationError('hasnt such import')
+        try:
+            citizen = imp.citizen_set.get(citizen_id=citizen_id)
+        except Citizen.DoesNotExist:
+            raise serializers.ValidationError('hasnt such citizen')
+        serializer = CitizenSerializerRel(citizen)
+        return Response(data=serializer.data)
 
     def patch(self, request, import_id, citizen_id):
         try:
@@ -39,9 +51,24 @@ class CitizenDetail(APIView):
             citizen = imp.citizen_set.get(citizen_id=citizen_id)
         except Citizen.DoesNotExist:
             raise serializers.ValidationError('hasnt such citizen')
-        # update
-        # Update `comment` with partial data
-        # serializer = CommentSerializer(comment, data={'content': u'foo bar'}, partial=True)
+
+        if len(request.data) == 0:
+            raise serializers.ValidationError('not empty query')
+        if request.data.pop('citizen_id', None) is not None:
+            raise serializers.ValidationError('cant change citizen_id')
+        correct = ('town', 'street', 'building', 'apartment',
+            'name', 'birth_date', 'gender', 'relatives')
+        for item in request.data:
+            if item not in correct:
+                raise serializers.ValidationError('unknown field ' + str(item))
+
+        serializer = CitizenSerializerRel(citizen, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            data=serializer.data,
+            status=status.HTTP_200_OK
+        )
 
 
 class CitizenList(APIView):

@@ -57,7 +57,15 @@ class ImportSerializer(serializers.ModelSerializer):
             # уникальные citizen_id
             if item['citizen_id'] in citizens:
                 raise serializers.ValidationError('not unique citizens')
-            citizens[item['citizen_id']] = 1
+            citizens[item['citizen_id']] = item['relatives']
+        
+        for citizen in citizens:
+            for rel in citizens[citizen]:
+                if rel not in citizens:
+                    raise serializers.ValidationError('no such relation')
+                if citizen not in citizens[rel]:
+                    raise serializers.ValidationError('not symm relations')
+
         return check_data
 
     def create(self, validated_data):
