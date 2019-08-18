@@ -19,7 +19,7 @@ class Citizen(models.Model):
 
     name = models.CharField(max_length=63)
     birth_date = models.DateField()
-    GENDER = (('male': 'male'), ('female': 'female'))
+    GENDER = (('male', 'male'), ('female', 'female'))
     gender = models.CharField(choices=GENDER, max_length=15)
 
     relatives = models.ManyToManyField('self', related_name='relatives', blank=True)
