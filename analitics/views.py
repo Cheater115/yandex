@@ -84,13 +84,17 @@ class CitizenList(APIView):
         serializer = CitizenSerializerRel(citizens, many=True)
         return_data = {"data":serializer.data}
         return Response(return_data) 
-        return Response(serializer.data)
 
 
 class CitizenBirthdays(APIView):
 
     def get(self, request, import_id):
-        pass
+        try:
+            imp = Import.objects.get(id=import_id)
+        except Import.DoesNotExist:
+            raise serializers.ValidationError('hasnt such import')
+        citizens = imp.citizen_set.all()
+        # задать структуру, пройтись по списку и добавить
 
 
 class ImportParcentile(APIView):
