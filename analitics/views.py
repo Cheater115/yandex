@@ -44,11 +44,11 @@ class CitizenDetail(APIView):
 
     def patch(self, request, import_id, citizen_id):
         try:
-            imp = Import.objects.get(id=import_id)
+            import_id = Import.objects.get(id=import_id)
         except Import.DoesNotExist:
             raise serializers.ValidationError('hasnt such import')
         try:
-            citizen = imp.citizen_set.get(citizen_id=citizen_id)
+            citizen = import_id.citizen_set.get(citizen_id=citizen_id)
         except Citizen.DoesNotExist:
             raise serializers.ValidationError('hasnt such citizen')
 
@@ -62,7 +62,13 @@ class CitizenDetail(APIView):
             if item not in correct:
                 raise serializers.ValidationError('unknown field ' + str(item))
 
-        serializer = CitizenSerializerRel(citizen, data=request.data, partial=True)
+        serializer = CitizenSerializerRel(
+            citizen,
+            data=request.data, 
+            partial=True,
+            context={"import_id": import_id},
+            
+        )
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(
@@ -77,11 +83,15 @@ class CitizenList(APIView):
     '''
     def get(self, request, import_id):
         try:
-            imp = Import.objects.get(id=import_id)
+            import_id = Import.objects.get(id=import_id)
         except Import.DoesNotExist:
             raise serializers.ValidationError('hasnt such import')
-        citizens = imp.citizen_set.all()
-        serializer = CitizenSerializerRel(citizens, many=True)
+        citizens = import_id.citizen_set.all()
+        serializer = CitizenSerializerRel(
+            citizens,
+            many=True,
+            context={"import_id": import_id},
+        )
         return_data = {"data":serializer.data}
         return Response(return_data) 
 

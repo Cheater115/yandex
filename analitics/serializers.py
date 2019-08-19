@@ -5,8 +5,26 @@ from analitics.models import Citizen, Import
 
 
 class MyPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
+    '''
+    В качестве primary key использует citizen_id,
+    в пределах конкретного набора данных(import_id)
+    '''
     def to_representation(self, value):
         return value.citizen_id
+
+    def get_queryset(self):
+        if self.context.get('import_id') is not None:
+            return self.context['import_id'].citizen_set.all()
+        return self.objects.all()
+
+    def to_internal_value(self, data):
+        try:
+            return self.get_queryset().get(citizen_id=data)
+        except ObjectDoesNotExist:
+            self.fail('does_not_exist')
+        except (TypeError, ValueError):
+            self.fail('incorrect_type')
+        
 
 
 class CitizenSerializerRel(serializers.ModelSerializer):
@@ -14,15 +32,16 @@ class CitizenSerializerRel(serializers.ModelSerializer):
     Сериализация данных жителя
     '''
     birth_date = serializers.DateField(
-        format='%d.%m.%Y', input_formats=['%d.%m.%Y'])
+        format='%d.%m.%Y',
+        input_formats=['%d.%m.%Y']
+    )
+    relatives = MyPrimaryKeyRelatedField(
+        many=True,
+        required=False
+    )
     class Meta:
         model = Citizen
         exclude = ('import_id', 'id')
-    relatives = MyPrimaryKeyRelatedField(
-        many=True,
-        queryset=Citizen.objects.all(),
-        required=False
-    )
 
 
 class CitizenSerializer(serializers.ModelSerializer):
@@ -31,11 +50,11 @@ class CitizenSerializer(serializers.ModelSerializer):
     '''
     birth_date = serializers.DateField(
         format='%d.%m.%Y', input_formats=['%d.%m.%Y'])
+    relatives = serializers.ListField(
+        child=serializers.IntegerField(min_value=0))
     class Meta:
         model = Citizen
         exclude = ('import_id', 'id')
-    relatives = serializers.ListField(
-        child=serializers.IntegerField(min_value=0))
 
 
 class ImportSerializer(serializers.ModelSerializer):
