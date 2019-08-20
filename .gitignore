@@ -7,3 +7,4 @@ __pycache__/
 */__pycache__/
 static/
 clean_db.sh
+tests/
