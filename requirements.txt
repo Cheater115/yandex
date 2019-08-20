@@ -1,8 +1,5 @@
-###### Requirements without Version Specifiers ######
 gunicorn
 psycopg2-binary
 djangorestframework
-#
-###### Requirements with Version Specifiers ######
-django == 2.2.4
-#
+numpy
+django

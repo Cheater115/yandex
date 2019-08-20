@@ -5,10 +5,12 @@ from rest_framework import status, serializers
 
 from collections import Counter
 from datetime import datetime
+from numpy import percentile
 
 from analitics.models import Import, Citizen
 from analitics.serializers import ImportSerializer, CitizenSerializer
 from analitics.serializers import CitizenSerializerRel
+# import analitics.functions
 
 
 def check_unknown_fields(data):
@@ -137,30 +139,34 @@ class CitizenBirthdays(APIView):
             context={'import_id': import_id},
         )
 
-        return_data = {'data':get_birthdays_info(serializer.data)}
+        return_data = {'data': get_birthdays_info(serializer.data)}
         return Response(return_data)
+
+def get_age(day, month, year):
+    ''''''
+    birth_date = datetime(int(year), int(month), int(day))
+    cur_date = datetime.utcnow()
+    age = cur_date.year - birth_date.year \
+        - ((cur_date.month, cur_date.day) < (birth_date.month, birth_date.day))
+    return age
 
 
 def get_percentile(citizens):
+    data = []
     dates = {}
     for citizen in citizens:
         town = citizen['town']
-        birth_date = citizen['birth_date'].split('.')
-        birth_date = datetime(
-            int(birth_date[2]),
-            int(birth_date[1]),
-            int(birth_date[0])
-        )
-        cur_date = datetime.utcnow()
-        age = cur_date.year \
-            - birth_date.year \
-            - ((cur_date.month, cur_date.day) < (birth_date.month, birth_date.day))
+        age = get_age(*citizen['birth_date'].split('.'))
         if dates.get(town) is None:
             dates[town] = [age]
         else:
             dates[town].append(age)
-        # raise serializers.ValidationError(str(new_date))
-    return dates
+    for town in dates:
+        p50 = percentile(dates[town], 50, interpolation='linear')
+        p75 = percentile(dates[town], 75, interpolation='linear')
+        p99 = percentile(dates[town], 99, interpolation='linear')
+        data.append({'town': town, 'p50': p50, 'p75': p75, 'p99': p99})
+    return data
 
 
 class ImportParcentile(APIView):
@@ -178,5 +184,5 @@ class ImportParcentile(APIView):
             context={'import_id': import_id},
         )
         
-        return_data = {'data':get_percentile(serializer.data)}
+        return_data = {'data': get_percentile(serializer.data)}
         return Response(return_data)
