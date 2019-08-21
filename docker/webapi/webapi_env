@@ -1,0 +1,6 @@
+SQL_ENGINE=django.db.backends.postgresql
+SQL_DATABASE=analitics_db
+SQL_USER=cheater
+SQL_PASSWORD=gif54TRU
+SQL_HOST=db
+SQL_PORT=5432

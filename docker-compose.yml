@@ -1,0 +1,49 @@
+version: '3'
+
+services:
+
+  webapi:
+    build: 
+      context: .
+      dockerfile: docker/webapi/Dockerfile
+    volumes:
+      - .:/opt/services/webapi
+      - static_volume:/opt/static
+    networks:
+      - nginx_network
+      - db_network
+    env_file:
+      - docker/webapi/webapi_env
+    depends_on:
+      - db
+  
+  nginx:
+    image: nginx
+    ports:
+      - 8080:80
+    volumes:
+      - ./docker/nginx:/etc/nginx/conf.d
+      - static_volume:/opt/static
+    depends_on:
+      - webapi
+    networks:
+      - nginx_network
+
+  db:
+    image: postgres
+    env_file:
+      - docker/db/db_env
+    networks:
+      - db_network
+    volumes:
+      - db_volume:/var/lib/postgresql/data
+
+networks:
+  nginx_network:
+    driver: bridge
+  db_network:
+    driver: bridge
+
+volumes:
+  db_volume:
+  static_volume:

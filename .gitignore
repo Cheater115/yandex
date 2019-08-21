@@ -1,10 +1,9 @@
 yaenv/
 .vscode/
-*.pyc
-*.py[cod]
-analitics/migrations/
-__pycache__/
-*/__pycache__/
 static/
-clean_db.sh
+migrations/
+__pycache__/
 tests/
+
+*.py[cod]
+
