@@ -3,6 +3,7 @@ version: '3'
 services:
 
   webapi:
+    restart: always
     build: 
       context: .
       dockerfile: docker/webapi/Dockerfile
@@ -18,6 +19,7 @@ services:
       - db
   
   nginx:
+    restart: always
     image: nginx
     ports:
       - 8080:80
@@ -30,6 +32,7 @@ services:
       - nginx_network
 
   db:
+    restart: always
     image: postgres
     env_file:
       - docker/db/db_env
