@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.postgres.fields import ArrayField
 
 
 class Import(models.Model):
@@ -22,4 +23,4 @@ class Citizen(models.Model):
     GENDER = (('male', 'male'), ('female', 'female'))
     gender = models.CharField(choices=GENDER, max_length=15)
 
-    relatives = models.ManyToManyField('self', related_name='relatives', blank=True)
+    relatives = ArrayField(models.PositiveIntegerField(), blank=True)

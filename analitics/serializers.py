@@ -1,41 +1,12 @@
 from rest_framework import serializers
 
-
 from analitics.models import Citizen, Import
 
 
-class MyPrimaryKeyRelatedField(serializers.PrimaryKeyRelatedField):
-    '''
-    В качестве primary key использует citizen_id,
-    в пределах конкретного набора данных(import_id)
-    '''
-    def to_representation(self, value):
-        return value.citizen_id
-
-    def get_queryset(self):
-        if self.context.get('import_id') is not None:
-            return self.context['import_id'].citizen_set.all()
-        return self.objects.all()
-
-    def to_internal_value(self, data):
-        try:
-            return self.get_queryset().get(citizen_id=data)
-        except:
-            raise serializers.ValidationError("not such relation")
-
-
-class CitizenSerializerRel(serializers.ModelSerializer):
-    '''
-    Сериализация данных жителя и валидация при PATCH
-    '''
+class CitizenSerializerPatch(serializers.ModelSerializer):
     birth_date = serializers.DateField(
-        format='%d.%m.%Y',
-        input_formats=['%d.%m.%Y']
-    )
-    relatives = MyPrimaryKeyRelatedField(
-        many=True,
-        required=False
-    )
+        format='%d.%m.%Y', input_formats=['%d.%m.%Y'])
+
     class Meta:
         model = Citizen
         exclude = ('import_id', 'id')
@@ -43,10 +14,42 @@ class CitizenSerializerRel(serializers.ModelSerializer):
     def validate_citizen_id(self, value):
         raise serializers.ValidationError('can\'t change citizen_id')
 
+    def validate_relatives(self, relatives):
+        for rel in relatives:
+            if rel not in self.context['citizens_id']:
+                raise serializers.ValidationError('No such citizen: ' + str(rel))
+        return relatives
+
     def validate(self, check_data):
         if len(check_data) == 0:
-            raise serializers.ValidationError('bad query')
+            raise serializers.ValidationError('empty query')
         return check_data
+
+    def update(self, citizen, validated_data):
+        citizen.town = validated_data.get('town', citizen.town)
+        citizen.street = validated_data.get('street', citizen.street)
+        citizen.building = validated_data.get('building', citizen.building)
+        citizen.apartment = validated_data.get('apartment', citizen.apartment)
+        citizen.name = validated_data.get('name', citizen.name)
+        citizen.birth_date = validated_data.get('birth_date', citizen.birth_date)
+        citizen.gender = validated_data.get('gender', citizen.gender)
+
+        if validated_data.get('relatives') is not None:
+            del_rel = [rel for rel in citizen.relatives if rel not in validated_data['relatives']]
+            up_rel = [rel for rel in validated_data['relatives'] if rel not in citizen.relatives]
+
+            for rel in del_rel:
+                rm = self.context['import_id'].citizen_set.get(citizen_id=rel)
+                rm.relatives.remove(citizen.citizen_id)
+                rm.save()
+            for rel in up_rel:
+                rm = self.context['import_id'].citizen_set.get(citizen_id=rel)
+                rm.relatives.append(citizen.citizen_id)
+                rm.save()
+        citizen.relatives = validated_data.get('relatives', citizen.relatives)
+
+        citizen.save()
+        return citizen
 
 
 class CitizenSerializer(serializers.ModelSerializer):
@@ -55,8 +58,6 @@ class CitizenSerializer(serializers.ModelSerializer):
     '''
     birth_date = serializers.DateField(
         format='%d.%m.%Y', input_formats=['%d.%m.%Y'])
-    relatives = serializers.ListField(
-        child=serializers.IntegerField(min_value=0))
     class Meta:
         model = Citizen
         exclude = ('import_id', 'id')
@@ -80,6 +81,9 @@ class ImportSerializer(serializers.ModelSerializer):
             if item['citizen_id'] in citizens:  # уникальные citizen_id
                 raise serializers.ValidationError('not unique citizens')
             citizens[item['citizen_id']] = item['relatives']
+            rel = set(item['relatives'])
+            if len(rel) != len(item['relatives']):  # уникальные родственники
+                raise serializers.ValidationError('not unique relations')
         for citizen in citizens:
             for rel in citizens[citizen]:
                 if rel not in citizens:
@@ -92,12 +96,12 @@ class ImportSerializer(serializers.ModelSerializer):
         citizen_data = validated_data.pop('citizens')
         import_id = Import.objects.create()
 
-        relatives = {}
+        citizens = []
         for citizen in citizen_data:
-            rel = citizen.pop('relatives')  # создаем без родственников
-            cit = Citizen.objects.create(import_id=import_id, **citizen)
-            relatives[cit.citizen_id] = (cit, rel)
-        for item in relatives:  # добавляем родственников
-            for i in relatives[item][1]:
-                relatives[item][0].relatives.add(relatives[i][0])
+            citizen['import_id'] = import_id
+            cit = Citizen(**citizen)
+            citizens.append(cit)
+ 
+        cits = Citizen.objects.bulk_create(citizens)
+
         return import_id

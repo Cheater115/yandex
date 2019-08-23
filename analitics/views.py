@@ -5,7 +5,7 @@ from rest_framework import status, serializers
 
 from analitics.models import Import, Citizen
 from analitics.serializers import ImportSerializer, CitizenSerializer
-from analitics.serializers import CitizenSerializerRel
+from analitics.serializers import CitizenSerializerPatch
 from analitics.functions import *
 
 
@@ -23,7 +23,7 @@ class ImportCreate(APIView):
         serializer.is_valid(raise_exception=True)  # не корректно - 400
         import_id = serializer.save()
         return Response(
-            data={'data': {'improt_id': import_id.id}},
+            data={'data': {'import_id': import_id.id}},
             status=status.HTTP_201_CREATED
         )
 
@@ -34,22 +34,25 @@ class CitizenDetail(APIView):
     Любые поля, кроме citizen_id.
     Возвращается актуальная информация об указанном жителе.
     '''
-    # only for debug
+    # DEBUG
     def get(self, request, import_id, citizen_id):
         import_id = get_import_or_400(import_id)
         citizen = get_citizen_or_400(import_id, citizen_id)
-        serializer = CitizenSerializerRel(citizen)
+        serializer = CitizenSerializer(citizen)
         return Response(data=serializer.data)
 
     def patch(self, request, import_id, citizen_id):
         check_unknown_fields(request.data)
         import_id = get_import_or_400(import_id)
         citizen = get_citizen_or_400(import_id, citizen_id)
-        serializer = CitizenSerializerRel(
+        citizens_id = []
+        for cit in import_id.citizen_set.all():
+            citizens_id.append(cit.citizen_id)
+        serializer = CitizenSerializerPatch(
             citizen,
             data=request.data,
             partial=True,
-            context={'import_id': import_id},
+            context={'citizens_id': citizens_id, 'import_id': import_id},
         )
         serializer.is_valid(raise_exception=True)
         serializer.save()
@@ -67,11 +70,7 @@ class CitizenList(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializerRel(
-            citizens,
-            many=True,
-            context={'import_id': import_id},
-        )
+        serializer = CitizenSerializer(citizens, many=True)
         return Response({'data':serializer.data}) 
 
 
@@ -84,12 +83,7 @@ class CitizenBirthdays(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializerRel(
-            citizens,
-            many=True,
-            context={'import_id': import_id},
-        )
-
+        serializer = CitizenSerializer(citizens, many=True)
         return_data = {'data': get_birthdays_info(serializer.data)}
         return Response(return_data)
 
@@ -103,11 +97,6 @@ class ImportPercentile(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializerRel(
-            citizens,
-            many=True,
-            context={'import_id': import_id},
-        )
-        
+        serializer = CitizenSerializer(citizens, many=True)
         return_data = {'data': get_percentile(serializer.data)}
         return Response(return_data)

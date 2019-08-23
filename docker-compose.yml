@@ -38,14 +38,34 @@ services:
       - docker/db/db_env
     networks:
       - db_network
+      - todb  # DEBUG
+    ports:
+     - 5432:5432  # DEBUG
     volumes:
       - db_volume:/var/lib/postgresql/data
+
+  DEBUG
+  adminer:
+    restart: always
+    image: dpage/pgadmin4
+    networks:
+      - todb
+    ports:
+      - 8090:8010
+    depends_on:
+      - db
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "angryshikamaru@gmail.com"
+      PGADMIN_DEFAULT_PASSWORD: "gif54TRU"
+      PGADMIN_LISTEN_PORT: "8010"
 
 networks:
   nginx_network:
     driver: bridge
   db_network:
     driver: bridge
+  todb:  # DEBUG
+    driver: bridge  # DEBUG
 
 volumes:
   db_volume:
