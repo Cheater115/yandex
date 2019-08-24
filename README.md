@@ -21,6 +21,7 @@
 ## 1. Установка Docker и Docker-Compose
 * [docker](https://docs.docker.com/install/)
 * [docker-compose](https://docs.docker.com/compose/install/)
+* [ubuntu 18.04](docker/installdocker.md)
 ## 2. Клонирование репозитория
 ```bash
 git clone https://github.com/SLKClub/yandex.git
