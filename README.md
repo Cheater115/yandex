@@ -11,6 +11,7 @@
 * **Python** (v. 3.6):
     * Сам `python`
     * `Gunicorn` - запуск веб-приложения
+    * `Eventlet` - для асинхронных воркеров *gunicorn*
     * `Django` - фреймворк для веб-приложения
     * `DjangoRestFramework` - библиотека поверх Django для создания REST API
     * `Psycopg2` - адаптер PostgreSQL (связь python - СУБД)

@@ -131,6 +131,6 @@ class ImportSerializer(serializers.ModelSerializer):
             cit = Citizen(**citizen)
             citizens.append(cit)
  
-        cits = Citizen.objects.bulk_create(citizens)
+        Citizen.objects.bulk_create(citizens)
 
         return import_id

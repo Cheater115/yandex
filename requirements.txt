@@ -1,4 +1,5 @@
 gunicorn
+eventlet
 psycopg2-binary
 djangorestframework
 numpy
