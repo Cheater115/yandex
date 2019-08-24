@@ -1,10 +1,8 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.parsers import JSONParser
-from rest_framework import status, serializers
+from rest_framework import status
 
-from analitics.models import Import, Citizen
-from analitics.serializers import ImportSerializer, CitizenSerializer
+from analitics.serializers import ImportSerializer, CitizenROSerializer
 from analitics.serializers import CitizenSerializerPatch
 from analitics.functions import *
 
@@ -38,7 +36,7 @@ class CitizenDetail(APIView):
     def get(self, request, import_id, citizen_id):
         import_id = get_import_or_400(import_id)
         citizen = get_citizen_or_400(import_id, citizen_id)
-        serializer = CitizenSerializer(citizen)
+        serializer = CitizenROSerializer(citizen)
         return Response(data=serializer.data)
 
     def patch(self, request, import_id, citizen_id):
@@ -70,7 +68,7 @@ class CitizenList(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializer(citizens, many=True)
+        serializer = CitizenROSerializer(citizens, many=True)
         return Response({'data':serializer.data}) 
 
 
@@ -83,7 +81,7 @@ class CitizenBirthdays(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializer(citizens, many=True)
+        serializer = CitizenROSerializer(citizens, many=True)
         return_data = {'data': get_birthdays_info(serializer.data)}
         return Response(return_data)
 
@@ -97,6 +95,6 @@ class ImportPercentile(APIView):
     def get(self, request, import_id):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
-        serializer = CitizenSerializer(citizens, many=True)
+        serializer = CitizenROSerializer(citizens, many=True)
         return_data = {'data': get_percentile(serializer.data)}
         return Response(return_data)
