@@ -44,7 +44,7 @@ services:
     volumes:
       - db_volume:/var/lib/postgresql/data
 
-  DEBUG
+  # DEBUG
   adminer:
     restart: always
     image: dpage/pgadmin4
