@@ -3,7 +3,6 @@ yaenv/
 static/
 migrations/
 __pycache__/
-tests/
 
 *.py[cod]
 *.debug

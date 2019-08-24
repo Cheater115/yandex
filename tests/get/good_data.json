@@ -1,0 +1,15 @@
+{
+    "citizens": [
+        {
+            "citizen_id": 1,
+            "town": "Москва",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "08.04.1975",
+            "gender": "female",
+            "relatives": []
+        }
+    ]
+}

@@ -1,0 +1,15 @@
+{
+    "citizens": [
+        {
+            "citizen_id": 1,
+            "town": "Москва",
+            "street": "Бродского",
+            "building": "55",
+            "apartment": 2,
+            "name": "",
+            "birth_date": "23.12.1917",
+            "gender": "female",
+            "relatives": []
+        }
+    ]
+}

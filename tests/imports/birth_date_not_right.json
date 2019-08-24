@@ -1,0 +1,15 @@
+{
+    "citizens": [
+        {
+            "citizen_id": 4,
+            "town": "Москва",
+            "street": "Бродского",
+            "building": "55",
+            "apartment": 2,
+            "name": "Романова Дарья Леонидовна",
+            "birth_date": "23.13.1917",
+            "gender": "female",
+            "relatives": []
+        }
+    ]
+}
