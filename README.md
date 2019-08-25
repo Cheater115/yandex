@@ -37,3 +37,19 @@ docker-compose exec webapi python manage.py collectstatic
 ```
 
 # Тесты
+> Зависимости curl, apache2-utils
+```bash
+cd tests
+# Тест: POST /imports
+./import_test.sh
+# Тест: PATCH /imports/$import_id/citizens/$citizen_id
+./patch_test.sh
+# Тест: GET /imports/$import_id/citizens
+./citizenlist_test.sh
+# Тест: GET /imports/$import_id/citizens/birthdays
+./birthdays_test.sh
+# Тест: GET /imports/$import_id/towns/stat/percentile/age
+./percentile_test.sh
+# Тест: На большие данные
+./bigdata_test.sh
+```

@@ -1,0 +1,139 @@
+{
+    "citizens": [
+        {
+            "citizen_id": 1,
+            "town": "Минск",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "07.03.1971",
+            "gender": "female",
+            "relatives": [
+                2,
+                1,
+                6,
+                7
+            ]
+        },
+        {
+            "citizen_id": 2,
+            "town": "Саратов",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "25.06.2004",
+            "gender": "female",
+            "relatives": [
+                1
+            ]
+        },
+        {
+            "citizen_id": 3,
+            "town": "Архангельск",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "27.08.2000",
+            "gender": "female",
+            "relatives": [
+                4
+            ]
+        },
+        {
+            "citizen_id": 4,
+            "town": "Пермь",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "07.05.2006",
+            "gender": "female",
+            "relatives": [
+                3
+            ]
+        },
+        {
+            "citizen_id": 5,
+            "town": "Минск",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "09.11.1987",
+            "gender": "female",
+            "relatives": [
+                6
+            ]
+        },
+        {
+            "citizen_id": 6,
+            "town": "Пермь",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "01.01.1975",
+            "gender": "female",
+            "relatives": [
+                5,
+                1
+            ]
+        },
+        {
+            "citizen_id": 7,
+            "town": "Одинцово",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "28.01.1978",
+            "gender": "female",
+            "relatives": [
+                8,
+                1
+            ]
+        },
+        {
+            "citizen_id": 8,
+            "town": "Минск",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "28.07.1984",
+            "gender": "female",
+            "relatives": [
+                7
+            ]
+        },
+        {
+            "citizen_id": 9,
+            "town": "Курс",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "25.12.1995",
+            "gender": "female",
+            "relatives": [
+                10
+            ]
+        },
+        {
+            "citizen_id": 10,
+            "town": "Москва",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "01.03.1980",
+            "gender": "female",
+            "relatives": [
+                9
+            ]
+        }
+    ]
+}

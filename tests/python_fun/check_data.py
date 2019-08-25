@@ -19,7 +19,10 @@ def main():
     post_data = ""
     with open(sys.argv[2]) as jf:
         post_data = json.load(jf)
-        post_data = post_data['citizens']
+        if post_data.get('citizens') is None:
+            post_data = post_data['data']
+        else:
+            post_data = post_data['citizens']
 
     if ordered(get_data) == ordered(post_data):
         return 0

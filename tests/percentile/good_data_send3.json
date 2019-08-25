@@ -1,0 +1,41 @@
+{
+    "citizens": [
+        {
+            "citizen_id": 1,
+            "town": "Москва",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "08.10.2008",
+            "gender": "female",
+            "relatives": [
+                2
+            ]
+        },
+        {
+            "citizen_id": 2,
+            "town": "Москва",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "17.07.1970",
+            "gender": "female",
+            "relatives": [
+                1
+            ]
+        },
+        {
+            "citizen_id": 3,
+            "town": "Москва",
+            "street": "Test",
+            "building": "Test",
+            "apartment": 1,
+            "name": "Test",
+            "birth_date": "08.04.1975",
+            "gender": "female",
+            "relatives": []
+        }
+    ]
+}

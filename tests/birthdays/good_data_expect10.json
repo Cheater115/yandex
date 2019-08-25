@@ -1,0 +1,80 @@
+{
+    "data": {
+        "1": [
+            {
+                "citizen_id": 8,
+                "presents": 1
+            },
+            {
+                "citizen_id": 1,
+                "presents": 2
+            },
+            {
+                "citizen_id": 5,
+                "presents": 1
+            }
+        ],
+        "2": [],
+        "3": [
+            {
+                "citizen_id": 9,
+                "presents": 1
+            },
+            {
+                "citizen_id": 2,
+                "presents": 1
+            },
+            {
+                "citizen_id": 1,
+                "presents": 1
+            },
+            {
+                "citizen_id": 6,
+                "presents": 1
+            },
+            {
+                "citizen_id": 7,
+                "presents": 1
+            }
+        ],
+        "4": [],
+        "5": [
+            {
+                "citizen_id": 3,
+                "presents": 1
+            }
+        ],
+        "6": [
+            {
+                "citizen_id": 1,
+                "presents": 1
+            }
+        ],
+        "7": [
+            {
+                "citizen_id": 7,
+                "presents": 1
+            }
+        ],
+        "8": [
+            {
+                "citizen_id": 4,
+                "presents": 1
+            }
+        ],
+        "9": [],
+        "10": [],
+        "11": [
+            {
+                "citizen_id": 6,
+                "presents": 1
+            }
+        ],
+        "12": [
+            {
+                "citizen_id": 10,
+                "presents": 1
+            }
+        ]
+    }
+}
