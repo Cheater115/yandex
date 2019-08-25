@@ -49,7 +49,7 @@ class CitizenDetail(APIView):
         serializer.save()
 
         return Response(
-            data=serializer.data,
+            data={'data': serializer.data},
             status=status.HTTP_200_OK
         )
 
@@ -62,7 +62,7 @@ class CitizenList(APIView):
         import_id = get_import_or_400(import_id)
         citizens = import_id.citizen_set.all()
         serializer = CitizenROSerializer(citizens, many=True)
-        return Response({'data':serializer.data}) 
+        return Response({'data': serializer.data}) 
 
 
 class CitizenBirthdays(APIView):
