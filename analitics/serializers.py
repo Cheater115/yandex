@@ -20,6 +20,9 @@ class CitizenSerializerPatch(serializers.ModelSerializer):
         for rel in relatives:
             if rel not in self.context['citizens_id']:
                 raise serializers.ValidationError('Bad citizen')
+        rel = set(relatives)
+        if len(rel) != len(relatives):
+            raise serializers.ValidationError('Not unique relatives')
         return relatives
 
     def validate(self, check_data):

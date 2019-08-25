@@ -41,7 +41,7 @@ docker-compose exec webapi python manage.py collectstatic
 ```bash
 cd tests
 # Тест: POST /imports
-./import_test.sh
+./imports_test.sh
 # Тест: PATCH /imports/$import_id/citizens/$citizen_id
 ./patch_test.sh
 # Тест: GET /imports/$import_id/citizens

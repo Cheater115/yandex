@@ -15,12 +15,14 @@ def main():
         exit(1)
 
     get_data = json.loads(sys.argv[1])
-    get_data = get_data['data']
+    if get_data.get('data') is not None:
+        get_data = get_data['data']
     post_data = ""
     with open(sys.argv[2]) as jf:
         post_data = json.load(jf)
         if post_data.get('citizens') is None:
-            post_data = post_data['data']
+            if post_data.get('data') is not None:
+                post_data = post_data['data']
         else:
             post_data = post_data['citizens']
 

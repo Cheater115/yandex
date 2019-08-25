@@ -1,0 +1,12 @@
+{
+    "town": "Москва",
+    "street": "Test2",
+    "building": "Test2",
+    "apartment": 2,
+    "name": "Test2",
+    "birth_date": "08.10.2018",
+    "gender": "male",
+    "relatives": [
+        1,3
+    ]
+}
