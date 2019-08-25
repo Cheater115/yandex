@@ -32,13 +32,6 @@ class CitizenDetail(APIView):
     Любые поля, кроме citizen_id.
     Возвращается актуальная информация об указанном жителе.
     '''
-    # DEBUG
-    def get(self, request, import_id, citizen_id):
-        import_id = get_import_or_400(import_id)
-        citizen = get_citizen_or_400(import_id, citizen_id)
-        serializer = CitizenROSerializer(citizen)
-        return Response(data=serializer.data)
-
     def patch(self, request, import_id, citizen_id):
         check_unknown_fields(request.data)
         import_id = get_import_or_400(import_id)
